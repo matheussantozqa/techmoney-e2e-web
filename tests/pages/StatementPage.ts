@@ -3,7 +3,6 @@ import { Locator, Page } from '@playwright/test';
 // Extrato e detalhe da transação (que abre ao tocar num item do extrato).
 export class StatementPage {
   readonly openButton: Locator;
-  readonly filters: Locator;
   readonly startDate: Locator;
   readonly endDate: Locator;
   readonly transactions: Locator;
@@ -20,7 +19,6 @@ export class StatementPage {
 
   constructor(private page: Page) {
     this.openButton = page.getByTestId('nav_button_statement');
-    this.filters = page.getByTestId(/^statement_filter_/);
     this.startDate = page.getByTestId('statement_button_date_from');
     this.endDate = page.getByTestId('statement_button_date_to');
     this.transactions = page.getByTestId(/^statement_item_\d+$/);
@@ -37,11 +35,6 @@ export class StatementPage {
 
   async open() {
     await this.openButton.click();
-  }
-
-  /** label: texto do botão na tela ("Todas", "Entradas", "Saídas"). */
-  async filterBy(label: string) {
-    await this.filters.filter({ hasText: label }).click();
   }
 
   /** Datas como na tela: "05/10/2026". */

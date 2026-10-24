@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
-import { Given, When, Then } from '../fixtures/fixtures';
-import { errors, register } from '../fixtures/data';
+import { web } from '../../fixtures/fixtures';
+import { errors, register } from '../../data/web';
+
+const { Given, When, Then } = web;
 
 Given('I am on the register page', async ({ loginPage }) => {
   await loginPage.open();
@@ -16,24 +18,9 @@ When('I submit an empty registration form', async ({ registerPage }) => {
   await registerPage.register('', '', '', '', '');
 });
 
-When('I register with an invalid CPF', async ({ registerPage }) => {
-  const { name, invalidCpf, email, password } = register;
-  await registerPage.register(name, invalidCpf, email, password, password);
-});
-
-When('I register with an invalid e-mail', async ({ registerPage }) => {
-  const { name, cpf, invalidEmail, password } = register;
-  await registerPage.register(name, cpf, invalidEmail, password, password);
-});
-
 When('I register with different passwords', async ({ registerPage }) => {
   const { name, cpf, email, password, differentConfirmation } = register;
   await registerPage.register(name, cpf, email, password, differentConfirmation);
-});
-
-When('I register with an already registered CPF', async ({ registerPage }) => {
-  const { name, registeredCpf, email, password } = register;
-  await registerPage.register(name, registeredCpf, email, password, password);
 });
 
 Then('I see the new account home', async ({ homePage }) => {
@@ -47,8 +34,4 @@ Then('I see all the required field errors', async ({ errorMessages }) => {
 
 Then('I see the password mismatch error', async ({ errorMessages }) => {
   await expect(errorMessages.all).toHaveText([errors.passwordMismatch]);
-});
-
-Then('I see the already registered CPF error', async ({ errorMessages }) => {
-  await expect(errorMessages.all).toHaveText([errors.registeredCpf]);
 });

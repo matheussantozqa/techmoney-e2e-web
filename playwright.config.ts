@@ -5,7 +5,7 @@ import { API_URL, BASE_URL } from './tests/support/env';
 const testDir = defineBddConfig({
   featuresRoot: 'tests/features', // encurta o caminho dos testes gerados na saída
   features: 'tests/features/**/*.feature',
-  steps: ['tests/steps/*.ts', 'tests/fixtures/fixtures.ts'],
+  steps: ['tests/steps/**/*.ts', 'tests/fixtures/fixtures.ts'],
 });
 
 export default defineConfig({
@@ -23,16 +23,25 @@ export default defineConfig({
       'allure-playwright',
       {
         resultsDir: 'reports/allure-results',
-        globalLabels: { epic: 'Web' },
         environmentInfo: { BASE_URL, API_URL, node: process.version },
       },
     ],
   ],
   use: {
-    ...devices['Desktop Chrome'],
-    baseURL: BASE_URL,
     trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
   },
+  // Um projeto por camada, separados pela tag da feature. API primeiro: é a mais rápida e cobre as regras de negócio.
+  projects: [
+    { name: 'api', grep: /@api/, use: { baseURL: API_URL } },
+    {
+      name: 'web',
+      grep: /@web/,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: BASE_URL,
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+      },
+    },
+  ],
 });

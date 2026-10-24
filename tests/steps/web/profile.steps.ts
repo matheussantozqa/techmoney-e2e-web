@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
-import { When, Then } from '../fixtures/fixtures';
-import { profile } from '../fixtures/data';
+import { web } from '../../fixtures/fixtures';
+import { profile } from '../../data/web';
+
+const { When, Then } = web;
 
 When('I open my profile', async ({ profilePage }) => {
   await profilePage.open();
@@ -12,10 +14,6 @@ When('I log out', async ({ profilePage }) => {
 
 When('I change my name', async ({ profilePage }) => {
   await profilePage.editData(profile.newName, profile.email);
-});
-
-When('I save an invalid e-mail', async ({ profilePage }) => {
-  await profilePage.editData(profile.name, profile.invalidEmail);
 });
 
 Then('I see my profile data', async ({ profilePage }) => {

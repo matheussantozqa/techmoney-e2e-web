@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
-import { Given, When, Then } from '../fixtures/fixtures';
-import { errors, home, login } from '../fixtures/data';
+import { web } from '../../fixtures/fixtures';
+import { home, login } from '../../data/web';
+
+const { Given, When, Then } = web;
 
 // Acesso (usado por quase todas as features)
 
@@ -20,14 +22,4 @@ When('I log in with valid credentials', async ({ loginPage }) => {
 
 Then('I see my home', async ({ homePage }) => {
   await expect(homePage.greeting).toHaveText(home.greeting);
-});
-
-// Erros usados por mais de uma feature. toHaveText com lista confere o texto e que não há outro erro na tela.
-
-Then('I see the invalid CPF error', async ({ errorMessages }) => {
-  await expect(errorMessages.all).toHaveText([errors.invalidCpf]);
-});
-
-Then('I see the invalid e-mail error', async ({ errorMessages }) => {
-  await expect(errorMessages.all).toHaveText([errors.invalidEmail]);
 });

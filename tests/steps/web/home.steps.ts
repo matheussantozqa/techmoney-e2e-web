@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
-import { Then } from '../fixtures/fixtures';
-import { home } from '../fixtures/data';
+import { web } from '../../fixtures/fixtures';
+import { home } from '../../data/web';
+
+const { Then } = web;
 
 Then('I see my balance', async ({ homePage }) => {
   await expect(homePage.balance).toHaveText(home.balance);

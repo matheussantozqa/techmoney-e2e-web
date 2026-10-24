@@ -1,11 +1,10 @@
 {
-  "name": "techmoney-e2e-web",
+  "name": "techmoney-e2e",
   "private": true,
   "version": "1.0.0",
   "scripts": {
     "clean": "node -e \"for (const d of ['reports/allure-results','reports/allure','reports/test-results']) require('fs').rmSync(d, { recursive: true, force: true })\"",
     "test": "npm run clean && bddgen && allure run --open -- playwright test",
-    "test:smoke": "npm test -- --grep @smoke",
     "test:ci": "npm run clean && bddgen && playwright test",
     "test:ui": "bddgen && playwright test --ui",
     "test:debug": "bddgen && playwright test --debug",

@@ -2,4 +2,3 @@ node_modules/
 .features-gen/
 reports/
 .env
-docs/

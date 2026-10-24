@@ -7,7 +7,6 @@ export class TransferPage {
   readonly description: Locator;
   readonly next: Locator;
   readonly confirm: Locator;
-  readonly pinDots: Locator;
   readonly done: Locator;
   readonly receiptAmount: Locator;
   readonly receiptRecipient: Locator;
@@ -20,7 +19,6 @@ export class TransferPage {
     this.description = page.getByTestId('transfer_input_description');
     this.next = page.getByTestId('transfer_button_next');
     this.confirm = page.getByTestId('transfer_button_confirm');
-    this.pinDots = page.getByTestId('transfer_text_pin_dots');
     this.done = page.getByTestId('transfer_button_done');
     this.receiptAmount = page.getByTestId('transfer_text_receipt_amount');
     this.receiptRecipient = page.getByTestId('transfer_text_receipt_recipient');
@@ -52,14 +50,6 @@ export class TransferPage {
   async enterPin(pin: string) {
     for (const digit of pin) {
       await this.page.getByTestId(`transfer_button_pin_${digit}`).click();
-    }
-  }
-
-  /** O 4º dígito envia sozinho: espera a resposta zerar as bolinhas, senão o 1º dígito da rodada seguinte cai no loading e se perde. */
-  async enterPinTimes(pin: string, times: number) {
-    for (let i = 0; i < times; i++) {
-      await this.enterPin(pin);
-      await this.pinDots.filter({ hasText: '○ ○ ○ ○' }).waitFor();
     }
   }
 

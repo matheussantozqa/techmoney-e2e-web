@@ -1,6 +1,8 @@
 import { expect } from '@playwright/test';
-import { When, Then } from '../fixtures/fixtures';
-import { help } from '../fixtures/data';
+import { web } from '../../fixtures/fixtures';
+import { help } from '../../data/web';
+
+const { When, Then } = web;
 
 When('I open the help', async ({ helpPage }) => {
   await helpPage.open();
